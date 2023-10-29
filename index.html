@@ -77,7 +77,65 @@
                     class="mt-1 block w-full p-2 rounded border-2 border-gray-500 focus:ring-primary transition duration-200 focus:ring-offset-2 focus:ring-2 focus:outline-none placeholder:font-semibold"
                   />
                 </div>
-
+    
+                <div class="space-y-4">
+                  <p class="text-base font-semibold tracking-wide">Filter by:</p>
+    
+                  <div class="space-y-2">
+                    <div
+                      v-for="(sortOption, index) in sortOptions"
+                      :key="index"
+                      class="flex items-center"
+                    >
+                      <div>
+                        <input
+                          type="radio"
+                          name="filter"
+                          v-model="sortBy"
+                          :value="sortOption"
+                          :id="sortOption"
+                          class="w-4 h-4 mr-3 checkbox appearance-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-full focus:outline-none border border-gray-400 checked:border-4 checked:border-primary cursor-pointer"
+                        />
+                      </div>
+                      <label
+                        :for="sortOption"
+                        class="capitalize cursor-pointer"
+                        :class="{'text-primary': sortBy === sortOption}"
+                        >{{ sortOption }}</label
+                      >
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="space-y-4">
+                  <p class="text-base font-semibold tracking-wide">Order by:</p>
+    
+                  <div class="space-y-2">
+                    <div
+                      v-for="(order, index) in orders"
+                      :key="index"
+                      class="flex items-center"
+                    >
+                      <div>
+                        <input
+                          type="radio"
+                          name="order"
+                          v-model="orderBy"
+                          :value="order.value"
+                          :id="order.value"
+                          class="w-4 h-4 mr-3 checkbox appearance-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-full focus:outline-none border border-gray-400 checked:border-4 checked:border-primary cursor-pointer"
+                        />
+                      </div>
+                      <label
+                        :for="order.value"
+                        class="capitalize cursor-pointer"
+                        :class="{'text-primary': orderBy === order.value}"
+                        >{{ order.text }}</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
 
           <div class="sm:w-4/5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div
