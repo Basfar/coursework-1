@@ -60,8 +60,47 @@
               </div>
             </nav>
           </header>
+
+
+          <div class="sm:w-4/5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div
+              class="p-4 space-y-2 flex flex-col justify-between border-2 border-black rounded-xl"
+              v-for="(lesson, index) in filteredLessons"
+              :key="index"
+            >
+              <div class="flex justify-between space-x-6">
+                <div class="space-y-1">
+                  <p><strong>Subject:</strong> {{ lesson.subject }}</p>
+                  <p><strong>Location:</strong> {{ lesson.location }}</p>
+                  <p><strong>Price:</strong> £{{ lesson.price }}</p>
+                  <p><strong>Spaces:</strong> {{ lesson.spaces }}</p>
+                </div>
+    
+                <img
+                  :src="lesson.image"
+                  :alt="lesson.subject"
+                  class="w-10 h-10"
+                />
+              </div>
     </div>
 
+
+
+
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <script>
+        import lessons from './lessons.js';
+
+        new Vue({
+        el: "#app",
+
+        data: {
+            lessons,
+        }
+
+        })
+
+    </script>
     
 </body>
 </html>
