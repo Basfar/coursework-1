@@ -127,6 +127,41 @@
                     class="w-10 h-10"
                   />
                 </div>
+
+                <div class="flex justify-end">
+                    <button
+                      class="!mt-2 text-sm bg-primary p-1.5 rounded text-white transition duration-200 focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+                      v-on:click.prevent="removeFromCart(item.id)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+  
+              <div
+                class="w-full md:w-1/2 lg:w-3/4 flex items-center justify-center"
+                v-else
+              >
+                <div class="flex flex-col items-center justify-center space-y-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-12 h-12"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                    />
+                  </svg>
+  
+                  <h6 class="font-semibold text-xl">No lessons in cart</h6>
+                </div>
+              </div>
     </div>
 
 
@@ -146,6 +181,30 @@
         },
         
         methods: {
+            pdateLessonSpaces(type, id) {
+            console.log("in here");
+            switch (type) {
+              case "decrease":
+                this.lessons = this.lessons.map((item) => {
+                  if (item.id === id && item.spaces > 0)
+                    return { ...item, spaces: --item.spaces };
+
+                  return item;
+                });
+                break;
+
+              case "reset":
+                this.lessons = this.lessons.map((item) => {
+                  if (item.id === id) return { ...item, spaces: 5 };
+
+                  return item;
+                });
+                break;
+
+              default:
+                break;
+            }
+          },
             isItemInCart(id) {
             return !!this.cart.find((item) => item.id === id);
           },
@@ -168,6 +227,22 @@
 
             this.updateLessonSpaces("decrease", lesson.id);
         },
+        removeFromCart(id) {
+            // get index of cart item
+            const index = this.cart.findIndex((item) => item.id === id);
+
+            // remove item from cart
+            this.cart.splice(index, 1);
+
+            // update lesson spaces
+            this.updateLessonSpaces("reset", id);
+
+            // toggle cart display if no item is in cart
+            if (!this.cart.length) this.toggleCartDisplay();
+          },
+          toggleCartDisplay() {
+            this.isCartDisplaying = !this.isCartDisplaying;
+          },
 
 
         }
