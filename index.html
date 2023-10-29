@@ -9,7 +9,26 @@
     <title>
         Individual Coursework 1 | Web-based Mobile App Development UG Individual
         Project
-      </title>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+      @layer components {
+        .responsive-container {
+          @apply px-6 mx-auto max-w-full lg:px-12 py-4;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1ABC9C",
+            },
+          },
+        },
+      };
+    </script>
 </head>
 <body>
     <div id="app">
@@ -351,31 +370,45 @@
 
 
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <script>
+    <script type="module">
         import lessons from './lessons.js';
 
         new Vue({
         el: "#app",
 
         data: {
-            checkedOut: false,
-            checkoutForm: {
-                name: {
-                    value: "",
-                    error: "",
-                },
-                phone: {
-                    value: "",
-                    error: "",
-                },
+          searchText: "",
+          sortBy: "subject",
+          orderBy: "asc",
+          sortOptions: ["subject", "location", "price", "availability"],
+          orders: [
+            {
+              text: "Ascending",
+              value: "asc",
             },
-            cart: [],
-            isCartDisplaying: false,
-            lessons,
+            {
+              text: "Descending",
+              value: "desc",
+            },
+          ],
+          cart: [],
+          isCartDisplaying: false,
+          checkedOut: false,
+          checkoutForm: {
+            name: {
+              value: "",
+              error: "",
+            },
+            phone: {
+              value: "",
+              error: "",
+            },
+          },
+          lessons,
         },
-        
+
         methods: {
-            updateLessonSpaces(type, id) {
+          updateLessonSpaces(type, id) {
             console.log("in here");
             switch (type) {
               case "decrease":
@@ -399,7 +432,7 @@
                 break;
             }
           },
-            isItemInCart(id) {
+          isItemInCart(id) {
             return !!this.cart.find((item) => item.id === id);
           },
           addToCart(id) {
@@ -420,8 +453,8 @@
             }
 
             this.updateLessonSpaces("decrease", lesson.id);
-        },
-        removeFromCart(id) {
+          },
+          removeFromCart(id) {
             // get index of cart item
             const index = this.cart.findIndex((item) => item.id === id);
 
@@ -456,9 +489,9 @@
               this.checkedOut = false;
             }, 3000);
           },
-       },
+        },
 
-       computed: {
+        computed: {
           cartLength() {
             if (this.cart.length > 0)
               return this.cart.reduce((total, item) => total + item.spaces, 0);
@@ -474,6 +507,7 @@
                   .toLowerCase()
                   .includes(this.searchText.toLowerCase())
             );
+
             if (this.orderBy === "asc") {
               // ascending
               switch (this.sortBy) {
