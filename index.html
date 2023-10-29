@@ -416,9 +416,37 @@
                   .toLowerCase()
                   .includes(this.searchText.toLowerCase())
             );
-          }
-        }
-    });
+          },
+          isCheckoutFormValid() {
+            return Object.keys(this.checkoutForm).every(
+              (key) =>
+                this.checkoutForm[key].value && !this.checkoutForm[key].error
+            );
+          },
+        },
+
+        watch: {
+          "checkoutForm.name": {
+            handler(val) {
+              if (!val.value) val.error = "Please enter your name";
+              else val.error = "";
+            },
+            deep: true,
+          },
+
+          "checkoutForm.phone": {
+            handler(val) {
+              const validationRegex = /^((\+44)|(0)) ?\d{4} ?\d{6}$/;
+
+              if (!val.value) val.error = "Please enter your phone number";
+              else if (!validationRegex.test(val.value))
+                val.error = "Please enter a valid UK phone number";
+              else val.error = "";
+            },
+            deep: true,
+          },
+        },
+      });
 
     </script>
     
