@@ -448,6 +448,38 @@
                     return 0;
                   });
               }
+            } else if (this.orderBy === "desc") {
+              // descending
+              switch (this.sortBy) {
+                case "subject":
+                  return lessons.sort((a, b) => {
+                    if (a.subject.toLowerCase() > b.subject.toLowerCase())
+                      return -1;
+                    if (a.subject.toLowerCase() < b.subject.toLowerCase())
+                      return 1;
+                    return 0;
+                  });
+                case "location":
+                  return lessons.sort((a, b) => {
+                    if (a.location.toLowerCase() > b.location.toLowerCase())
+                      return -1;
+                    if (a.location.toLowerCase() < b.location.toLowerCase())
+                      return 1;
+                    return 0;
+                  });
+                case "price":
+                  return lessons.sort((a, b) => {
+                    if (a.price > b.price) return -1;
+                    if (a.price < b.price) return 1;
+                    return 0;
+                  });
+                case "availability":
+                  return lessons.sort((a, b) => {
+                    if (a.spaces > b.spaces) return -1;
+                    if (a.spaces < b.spaces) return 1;
+                    return 0;
+                  });
+              }
             }
           },
           isCheckoutFormValid() {
