@@ -398,10 +398,25 @@
               this.checkedOut = false;
             }, 3000);
           },
-       
+       },
 
-
-
+       computed: {
+          cartLength() {
+            if (this.cart.length > 0)
+              return this.cart.reduce((total, item) => total + item.spaces, 0);
+            return 0;
+          },
+          filteredLessons() {
+            const lessons = this.lessons.filter(
+              (lesson) =>
+                lesson.subject
+                  .toLowerCase()
+                  .includes(this.searchText.toLowerCase()) ||
+                lesson.location
+                  .toLowerCase()
+                  .includes(this.searchText.toLowerCase())
+            );
+          }
         }
     });
 
