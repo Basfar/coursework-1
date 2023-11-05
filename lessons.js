@@ -5,7 +5,7 @@ export default [
       location: "Hendon",
       price: 200,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic10.png",
     },
     {
       id: 2,
@@ -13,7 +13,7 @@ export default [
       location: "Cricklewood",
       price: 300,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic9.png",
     },
     {
       id: 3,
@@ -21,7 +21,7 @@ export default [
       location: "Wembley",
       price: 350,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic8.png",
     },
     {
       id: 4,
@@ -29,7 +29,7 @@ export default [
       location: "Brent Cross",
       price: 100,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic7.png",
     },
     {
       id: 5,
@@ -37,7 +37,7 @@ export default [
       location: "Camden",
       price: 250,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic6.png",
     },
     {
       id: 6,
@@ -45,7 +45,7 @@ export default [
       location: "Colindale",
       price: 150,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic5.png",
     },
     {
       id: 7,
@@ -53,7 +53,7 @@ export default [
       location: "London Bridge",
       price: 200,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic4.png",
     },
     {
       id: 8,
@@ -61,7 +61,7 @@ export default [
       location: "Edgware",
       price: 400,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic3.png",
     },
     {
       id: 9,
@@ -69,7 +69,7 @@ export default [
       location: "Chelsea",
       price: 850,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic2.png",
     },
     {
       id: 10,
@@ -77,7 +77,7 @@ export default [
       location: "Watford",
       price: 800,
       spaces: 5,
-      image: "./img/10.svg",
+      image: "./img/pic1.png",
     },
   ]
 
