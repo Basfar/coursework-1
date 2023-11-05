@@ -82,16 +82,9 @@ methods: {
     this.updateLessonSpaces("decrease", lesson.id);
   },
   removeFromCart(id) {
-    // get index of cart item
     const index = this.cart.findIndex((item) => item.id === id);
-
-    // remove item from cart
     this.cart.splice(index, 1);
-
-    // update lesson spaces
     this.updateLessonSpaces("reset", id);
-
-    // toggle cart display if no item is in cart
     if (!this.cart.length) this.toggleCartDisplay();
   },
   toggleCartDisplay() {
@@ -136,7 +129,6 @@ computed: {
     );
 
     if (this.orderBy === "asc") {
-      // ascending
       switch (this.sortBy) {
         case "subject":
           return lessons.sort((a, b) => {
@@ -168,7 +160,6 @@ computed: {
           });
       }
     } else if (this.orderBy === "desc") {
-      // descending
       switch (this.sortBy) {
         case "subject":
           return lessons.sort((a, b) => {
@@ -212,7 +203,11 @@ computed: {
 watch: {
   "checkoutForm.name": {
     handler(val) {
+    const validationRegex = /[a-zA-Z]+/;
+
       if (!val.value) val.error = "Please enter your name";
+      else if (!validationRegex.test(val.value))
+        val.error = "letters only";
       else val.error = "";
     },
     deep: true,
