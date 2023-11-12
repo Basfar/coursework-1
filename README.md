@@ -13,4 +13,4 @@ Project Features:
     - user receives a toast notification to confirm successful checkout.
 - Users can checkout items only if:
     - they have entered a valid name
-    - they have enteree a valid UK phone number
+    - they have entered a valid UK phone number
