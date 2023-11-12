@@ -109,6 +109,9 @@ methods: {
       this.checkedOut = false;
     }, 3000);
   },
+  showAlert: function() {
+    alert('Order has been Submitted!');
+  }
 },
 
 computed: {
