@@ -1,5 +1,3 @@
-import lessons from './lessons.js';
-
 new Vue({
 el: "#app",
 
