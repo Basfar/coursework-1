@@ -3,7 +3,11 @@ import lessons from './lessons.js';
 new Vue({
 el: "#app",
 
+
 data: {
+  loading: false,
+  error: null,
+  url: "https://xclusivedesigns.co.uk",
   searchText: "",
   sortBy: "subject",
   orderBy: "asc",
@@ -31,16 +35,66 @@ data: {
       error: "",
     },
   },
-  lessons,
+  lessons: [],
 },
 
 methods: {
-  updateLessonSpaces(type, id) {
-    console.log("in here");
+  async getLessons() {
+    try {
+      this.loading = true;
+
+      const url = `${this.url}/lessons/?search=${this.searchText}`;
+
+      const response = await fetch(url);
+
+      this.lessons = await response.json();
+    } catch (error) {
+      this.error = error;
+    } finally {
+      this.loading = false;
+    }
+  },
+  async createNewOrder(order) {
+    try {
+      this.loading = true;
+
+      const url = `${this.url}/orders`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order),
+      });
+    } catch (error) {
+      this.error = error;
+    } finally {
+      this.loading = false;
+    }
+  },
+  async updateLesson({ lesson_id, spaces }) {
+    try {
+      this.loading = true;
+
+      const url = `${this.url}/lessons/${lesson_id}`;
+
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          spaces: spaces,
+        }),
+      });
+    } catch (error) {
+      this.error = error;
+    } finally {
+      this.loading = false;
+    }
+  },
+  updateLessonSpaces(type, _id) {
     switch (type) {
       case "decrease":
         this.lessons = this.lessons.map((item) => {
-          if (item.id === id && item.spaces > 0)
+          if (item._id === _id && item.spaces > 0)
             return { ...item, spaces: --item.spaces };
 
           return item;
@@ -49,7 +103,7 @@ methods: {
 
       case "reset":
         this.lessons = this.lessons.map((item) => {
-          if (item.id === id) return { ...item, spaces: 5 };
+          if (item._id === _id) return { ...item, spaces: 5 };
 
           return item;
         });
@@ -59,13 +113,13 @@ methods: {
         break;
     }
   },
-  isItemInCart(id) {
-    return !!this.cart.find((item) => item.id === id);
+  isItemInCart(_id) {
+    return !!this.cart.find((item) => item._id === _id);
   },
-  addToCart(id) {
-    const lesson = this.lessons.find((lesson) => lesson.id === id);
+  addToCart(_id) {
+    const lesson = this.lessons.find((lesson) => lesson._id === _id);
 
-    if (!this.isItemInCart(lesson.id)) {
+    if (!this.isItemInCart(lesson._id)) {
       this.cart.push({
         ...lesson,
         spaces: 1,
@@ -73,31 +127,49 @@ methods: {
     } else {
       if (lesson.spaces > 0) {
         this.cart = this.cart.map((item) => {
-          if (item.id === id) return { ...item, spaces: ++item.spaces };
+          if (item._id === _id)
+            return { ...item, spaces: ++item.spaces };
           return item;
         });
       }
     }
 
-    this.updateLessonSpaces("decrease", lesson.id);
+    this.updateLessonSpaces("decrease", lesson._id);
   },
-  removeFromCart(id) {
-    const index = this.cart.findIndex((item) => item.id === id);
+  removeFromCart(_id) {
+    // get index of cart item
+    const index = this.cart.findIndex((item) => item._id === _id);
+
+    // remove item from cart
     this.cart.splice(index, 1);
-    this.updateLessonSpaces("reset", id);
+
+    // update lesson spaces
+    this.updateLessonSpaces("reset", _id);
+
+    // toggle cart display if no item is in cart
     if (!this.cart.length) this.toggleCartDisplay();
   },
   toggleCartDisplay() {
     this.isCartDisplaying = !this.isCartDisplaying;
   },
   checkout() {
+    this.cart.forEach(async (item) => {
+      await this.createNewOrder({
+        name: this.checkoutForm.name.value,
+        phone: this.checkoutForm.phone.value,
+        lesson_id: item._id,
+        spaces: item.spaces,
+      });
+
+      await this.updateLesson({
+        lesson_id: item._id,
+        spaces: item.spaces,
+      });
+    });
+
     this.checkedOut = true;
 
     this.toggleCartDisplay();
-
-    this.cart.forEach((item) =>
-      this.updateLessonSpaces("reset", item.id)
-    );
 
     this.cart = [];
 
@@ -109,9 +181,6 @@ methods: {
       this.checkedOut = false;
     }, 3000);
   },
-  showAlert: function() {
-    alert('Order has been Submitted!');
-  }
 },
 
 computed: {
@@ -121,17 +190,12 @@ computed: {
     return 0;
   },
   filteredLessons() {
-    const lessons = this.lessons.filter(
-      (lesson) =>
-        lesson.subject
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        lesson.location
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase())
-    );
+    if (this.lessons.length <= 0) return [];
+
+    const lessons = this.lessons;
 
     if (this.orderBy === "asc") {
+      // ascending
       switch (this.sortBy) {
         case "subject":
           return lessons.sort((a, b) => {
@@ -163,6 +227,7 @@ computed: {
           });
       }
     } else if (this.orderBy === "desc") {
+      // descending
       switch (this.sortBy) {
         case "subject":
           return lessons.sort((a, b) => {
@@ -203,14 +268,39 @@ computed: {
   },
 },
 
+created() {
+  // register service worker
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./service-worker.js", {
+          scope: '/coursework-1.github.io/'
+        })
+        .then((registration) => {
+          console.log("Service worker registered: ", registration);
+        })
+        .catch((error) => {
+          console.log("Service worker registration failed: ", error);
+        });
+    });
+  }
+
+  this.getLessons();
+},
+
 watch: {
+  searchText: {
+    handler(val) {
+      this.getLessons();
+    },
+  },
   "checkoutForm.name": {
     handler(val) {
-    const validationRegex = /[a-zA-Z]+/;
+      const validationRegex = /^[A-Za-z\s]*$/;
 
       if (!val.value) val.error = "Please enter your name";
       else if (!validationRegex.test(val.value))
-        val.error = "letters only";
+        val.error = "Your name must only contain letters";
       else val.error = "";
     },
     deep: true,
