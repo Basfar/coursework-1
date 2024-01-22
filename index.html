@@ -8,7 +8,7 @@
     <title>
         Coursework 1
     </title>
-    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
       @layer components {
         .responsive-container {
@@ -21,14 +21,14 @@
         theme: {
           extend: {
             colors: {
-              primary: "#1ab6ee",
+              primary: "#1AB6EE",
             },
           },
         },
       };
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app">
       <header>
         <nav
@@ -77,7 +77,7 @@
           </div>
         </nav>
       </header>
-      
+
       <main class="mt-4">
         <div
           v-if="!isCartDisplaying"
@@ -188,7 +188,7 @@
                 </div>
 
                 <img
-                  :src="`https://xclusivedesigns.co.uk/${lesson.image}`"
+                  :src="`http://coursework2.eu-north-1.elasticbeanstalk.com/${lesson.image}`"
                   :alt="lesson.subject"
                   class="w-10 h-10"
                 />
@@ -242,7 +242,7 @@
                   </div>
 
                   <img
-                    :src="`https://xclusivedesigns.co.uk/${item.image}`"
+                    :src="`http://coursework2.eu-north-1.elasticbeanstalk.com/${item.image}`"
                     :alt="item.subject"
                     class="w-10 h-10"
                   />
@@ -398,7 +398,6 @@
           </button>
         </div>
       </transition>
-    </div>
     </div>
 
 
