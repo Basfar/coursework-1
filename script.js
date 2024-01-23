@@ -4,7 +4,7 @@ new Vue({
   data: {
     loading: false,
     error: null,
-    url: "http://coursework2.eu-north-1.elasticbeanstalk.com",
+    url: "https://coursework2.eu-north-1.elasticbeanstalk.com",
     searchText: "",
     sortBy: "subject",
     orderBy: "asc",

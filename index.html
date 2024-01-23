@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>
         Coursework 1
     </title>
@@ -187,7 +188,7 @@
                 </div>
 
                 <img
-                  :src="`http://coursework2.eu-north-1.elasticbeanstalk.com/${lesson.image}`"
+                  :src="`https://coursework2.eu-north-1.elasticbeanstalk.com/${lesson.image}`"
                   :alt="lesson.subject"
                   class="w-10 h-10"
                 />
@@ -241,7 +242,7 @@
                   </div>
 
                   <img
-                    :src="`http://coursework2.eu-north-1.elasticbeanstalk.com/${item.image}`"
+                    :src="`https://coursework2.eu-north-1.elasticbeanstalk.com/${item.image}`"
                     :alt="item.subject"
                     class="w-10 h-10"
                   />
